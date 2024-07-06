@@ -1,0 +1,16 @@
+var routes = [
+  {path: '/', componentUrl: 'pages/home.html'},
+  {path: '/pickup/', componentUrl: 'pages/pickup.html'},
+  {path: '/ongoing/', componentUrl: 'pages/ongoing.html'},
+  {path: '/history/', componentUrl: 'pages/history.html'},
+  {path: '/simulation/', componentUrl: 'pages/simulation.html'},
+  {path: '/order/', componentUrl: 'pages/order.html'},
+  {path: '/detail-order/', componentUrl: 'pages/detail-order.html'},
+  {path: '/maps/', componentUrl: 'pages/maps.html'},
+  {path: '/payment/', componentUrl: 'pages/payment.html'},
+  {path: '/detail-pickup/:id', componentUrl: 'pages/detail-pickup.html'},
+  {path: '/detail-ongoing/:id', componentUrl: 'pages/detail-ongoing.html'},
+  {path: '/regis/', componentUrl: 'pages/regis.html'},
+  {path: '/first/', componentUrl: 'pages/firstpage.html'},
+  {path: '/login/', componentUrl: 'pages/login.html'},
+]

@@ -1,0 +1,41 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Framework7</span>
+                    </a>
+                </div>
+                <div class="title sliding">Detail</div>
+                <div class="title-large">
+                    <div class="title-large-text">Detail</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="block-title block-title-medium">Detail Penjemputan</div>
+            <div class="card">
+                <div class="card-content card-content-padding">
+                    <p>Customer id :</p>
+                    <p>Nama Pelanggan :</p>
+                    <p>Alamat :</p>
+                    <div class="left">
+                        <a href="#" class="button button-tonal color-yellow" @click="${()=>finishPickup()}">Selesaikan Penjemputan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx) {
+        let $on = ctx.$on;
+        $on("pageInit", () => {
+            finishPickup(props.id);
+        })
+        return $render
+    }
+</script>

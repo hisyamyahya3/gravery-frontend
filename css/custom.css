@@ -1,0 +1,47 @@
+.warna-hijau {background-color: #63c35c;}
+
+.warna-hitam {background-color: black;}
+
+.warna-biru {background-color: cornflowerblue;}
+
+.warna-abu {background-color: #202020;}
+
+.teks-putih {color: white}
+
+.teks-hitam {color: black}
+
+.tab-link-highlight {display:none;}
+
+.teks-hijau {color: #16a085;}
+
+.teks-biru {color: #6495ed;}
+
+.gambar-slider {width: 90%; border-radius: 10px; margin: 0px 5% 0px 5%;}
+
+.baris-icon {margin: 0px 5% 15px 5%;}
+
+.besar-icon {width: 100%}
+
+.teks-tengah {text-align: center;}
+
+.font17 {font-size: 17px;}
+
+.text-hitam {color:black; text-align: justify;}
+
+.gambar-tengah {display: block; margin-left: auto; margin-right: auto;}
+
+.radius10 {border-radius: 10px;}
+
+.md.device-android {
+    --f7-safe-area-top: 64px;
+    --f7-safe-area-bottom: 34px;
+}
+
+.leaflet-control-container .leaflet-top .leaflet-control-zoom {
+    margin-top: 35px;
+}
+
+.leaflet-routing-alternatives-container {
+    display: none;
+    visibility: hidden;
+}

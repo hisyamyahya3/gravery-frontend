@@ -1,0 +1,67 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Framework7</span>
+                    </a>
+                </div>
+                <div class="title sliding">Simulasi Biaya</div>
+                <div class="title-large">
+                    <div class="title-large-text">Simulasi Biaya</div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar tabbar tabbar-icons toolbar-bottom">
+            <div class="toolbar-inner" style="display: flex; justify-content: center; align-items: center;">
+                <div class="teks-tengah font17">Total: Rp. 10.000</div>         
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="grid grid-cols-2">
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="#">
+                            <div class="item-media"><img src="img/leaf.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah">Organik</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="#">
+                            <div class="item-media"><img src="img/metal-recycling.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah">Aorganik</div>
+                            </div>
+                        </a>                
+                    </div>
+                </div>           
+            </div>
+            <div class="list list-strong-ios list-dividers-ios inset-ios">
+                <ul>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Berat Sampah (Kg)</div>
+                            <div class="item-input-wrap">
+                                <input name="category_weight" type="text" readonly id="Weight"/>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-content card-content-padding">
+                    <p>Jenis Sampah :</p>
+                    <p>Harga :</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

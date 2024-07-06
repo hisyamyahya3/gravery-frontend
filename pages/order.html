@@ -1,0 +1,62 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Framework7</span>
+                    </a>
+                </div>
+                <div class="title sliding">Bank Sampah</div>
+                <div class="title-large">
+                    <div class="title-large-text">Bank Sampah</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="block-title block-title-medium">Sampah Organik</div>
+            <div class="list list-strong-ios list-dividers-ios inset-ios">
+                <ul>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Berat Sampah (Kg)</div>
+                            <div class="item-input-wrap">
+                                <input name="organic" type="text" id="organic"/>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="block-title block-title-medium">Sampah Anorganik</div>
+            <div class="list list-strong-ios list-dividers-ios inset-ios">
+                <ul>
+                    <li class="item-content item-input item-input-outline">
+                        <div class="item-inner">
+                            <div class="item-title item-floating-label">Berat Sampah (Kg)</div>
+                            <div class="item-input-wrap">
+                                <input name="anorganik" type="text" id="anorganic"/>
+                                <span class="input-clear-button"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="block block-strong block-outline-ios">
+                <h2 class="col" style="font-weight: bold;">Buat Pesanan</h2>
+                <button class="button button-tonal color-yellow" @click="${()=>makeOrder()}">Buat Pesanan</button>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default async function (props, ctx) {
+        let $on = ctx.$on;
+        // $on("pageInit", async () => {
+           
+        // })
+        return $render
+    }
+</script>

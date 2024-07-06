@@ -1,0 +1,44 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a href="#" class="back-to-home">
+                        <i class="icon f7-icons">multiply</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="block-title block-title-large teks-tengah">Sampah berhasil dijemput</div>
+            <div class="card">
+                <div class="card-content card-content-padding">
+                    <i class="icon f7-icons teks-tengah">checkmark_2</i>     Silahkan menunggu kurir datang!
+                </div>
+            </div>
+            <div class="block-title block-title-medium teks-tengah">Jumlah Sampah</div>
+            <h1 class="teks-tengah status-nominal-pembayaran"></h1>
+            <div class="block-title block-title-medium">Atas Nama</div>
+            <div class="card">
+                <div class="card-content card-content-padding" id="payment-name">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx) {
+        ctx.$on('pageInit', () => {
+            $('.back-to-home').on('click', () => {app.views.main.router.navigate("/")})
+
+            let nama = sessionStorage.getItem("CustomerName");
+            let total = localStorage.getItem("priceTotal")
+            $('#payment-name').html(`<h3>${nama}</h3>`);
+            $('.status-nominal-pembayaran').html(rupiahFormatter(total));
+        })
+
+        return $render;
+    };
+</script>

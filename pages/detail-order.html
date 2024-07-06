@@ -1,0 +1,75 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Framework7</span>
+                    </a>
+                </div>
+                <div class="title sliding">Konfirmasi Pesanan</div>
+                <div class="title-large">
+                    <div class="title-large-text">Konfirmasi Pesanan</div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar tabbar tabbar-icons toolbar-bottom">
+            <div class="toolbar-inner" style="display: flex; justify-content: center; align-items: center;" id="total">
+                <!-- <div class="teks-tengah font17"><h2>Total: Rp. 10.000</h2></div>     -->
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="block-title block-title-medium">Detail Pesanan</div>
+            <div class="card" id="detail-card">
+                <!-- <div class="card-content card-content-padding">
+                    <h4>Nama Pelanggan :</h4>
+                    <h4>Jenis Sampah :</h4>
+                    <h4>Biaya Per Kg :</h4>
+                    <h4>Total :</h4>
+                    <div class="left">
+                        <button class="button button-tonal color-yellow" @click="${()=>createOrder()}">Konfirmasi Pesanan</button>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default async function (props, ctx) {
+        let $on = ctx.$on;
+        $on("pageInit", async () => {
+            let nama = sessionStorage.getItem("CustomerName");
+
+            let organic = localStorage.getItem("organic_size");
+            let anorganic = localStorage.getItem("anorganic_size");
+            let organic_price = parseInt(localStorage.getItem("organic_price"));
+            let anorganic_price = parseInt(localStorage.getItem("anorganic_price"));
+            let total = organic_price + anorganic_price
+            localStorage.setItem("priceTotal", total);
+            
+            $('#detail-card').html(`
+                <div class="card-content card-content-padding">
+                    <h4>Nama Pelanggan : ${nama}</h4>
+                    ${organic ?
+                        `<h4>Jenis Sampah : Organic</h4>
+                        <h4>Berat Sampah : ${organic}</h4>
+                        <h4>Biaya : ${rupiahFormatter(organic_price)}</h4>`: ''  
+                        }
+                        ${anorganic ? 
+                        `<h4>Jenis Sampah : Anorganic</h4>
+                        <h4>Berat Sampah : ${anorganic}</h4>
+                        <h4>Biaya : ${rupiahFormatter(anorganic_price)}</h4>` : ''
+                        }
+                    <div class="left">
+                        <a href='#' class="button button-tonal color-yellow create-order" onclick="${createOrder()}">Konfirmasi Pesanan</a>
+                    </div>
+                </div>
+            `)
+
+            $('#total').html(`<div class="teks-tengah font17"><h3>Total: ${rupiahFormatter(total)}</h3></div>`)
+        })
+        return $render
+    }
+</script>

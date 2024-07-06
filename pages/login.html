@@ -1,0 +1,71 @@
+<template>
+    <div class="page no-toolbar no-navbar no-swipeback login-screen-page">
+        <div class="page-content login-screen-content">
+            <div class="login-screen-title">
+                Bank Sampah
+            </div>
+            <div class="block-title block-title-large">Halaman Login</div>
+            <form>
+                <div class="list">
+                    <ul>
+                        <li class="item-content item-input item-input-outline">
+                            <div class="item-inner">
+                                <div class="item-title item-floating-label">Username</div>
+                                <div class="item-input-wrap">
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        id="username"
+                                        class="login-username"
+                                    />
+                                    <span class="input-clear-button"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item-content item-input item-input-outline">
+                            <div class="item-inner">
+                              <div class="item-title item-floating-label">Password</div>
+                              <div class="item-input-wrap">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        class="login-password"
+                                    />
+                                    <span class="input-clear-button"></span>
+                              </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <a class="item-content item-link" @click="${()=>login()}">
+                                <div class="item-media"></div>
+                                <div class="item-inner">
+                                    <div class="item-title teks-tengah"><h4>Login</h4></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <a class="item-content item-link" href="/regis/">
+                                <div class="item-media"></div>
+                                <div class="item-inner">
+                                    <div class="item-title teks-tengah"><h4>Daftar</h4></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx) {
+        return $render;
+    }
+</script>

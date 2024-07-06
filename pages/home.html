@@ -1,0 +1,144 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="title sliding"><h4>Bank Sampah</h4></div>
+                <div class="title-large">
+                    <div class="title-large-text"><h4>Bank Sampah</h4></div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="card">
+                <div class="card-content card-content-padding">
+                    <h4>Selamat Datang!</h4>
+                    <h1 class="nama">
+                        
+                    </h1>
+                    <div class="left">
+                        <button class="button button-tonal color-yellow" @click="${()=>logout()}">Keluar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 content-courier display-none">
+                <div class="card d-none">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/pickup/">
+                            <div class="item-media"><img src="img/location.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Jemput</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/ongoing/">
+                            <div class="item-media"><img src="img/tracking.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Saat Ini</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/history/">
+                            <div class="item-media"><img src="img/shopping-list.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Riwayat</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="#">
+                            <div class="item-media"><img src="img/money.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah">Simulasi</div>
+                            </div>
+                        </a>
+                    </div>
+                </div> -->
+            </div>
+            <div class="grid grid-cols-2 content-customer display-none">
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/order/">
+                            <div class="item-media"><img src="img/receipt.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Pesan</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="#">
+                            <div class="item-media"><img src="img/delivery-courier.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Edit Profile</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/history/">
+                            <div class="item-media"><img src="img/shopping-list.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Riwayat</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content card-content-padding">
+                        <a class="item-content item-link" href="/simulation/">
+                            <div class="item-media"><img src="img/money.png" class="besar-icon" /></div>
+                            <div class="item-inner">
+                                <div class="item-title teks-tengah"><h4>Simulasi</h4></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default async function (props, ctx) {
+        let $on = ctx.$on;
+        $on("pageInit", async () => {
+            let username = sessionStorage.getItem("username");
+
+            await $.ajax({
+                url: "https://gravery-api.vercel.app/api/detail-profile",
+                method: "POST",
+                data: {
+                    username: username
+                },
+                success: function(result) {
+                    console.log(result);
+                    // return;
+                    if (result.role_id == 1){
+                        $('.content-customer').removeClass("display-none")
+                        sessionStorage.setItem("customerId", result.profile_id)
+                        sessionStorage.setItem("CustomerName", result.name)
+                    } 
+
+                    if (result.role_id == 2){
+                        $('.content-courier').removeClass("display-none")
+                        sessionStorage.setItem("courierId", result.profile_id)
+                    }
+                    
+                    let nama = result.name
+                    $('.nama').html(nama)
+                },
+            })
+        })
+        return $render
+    }
+</script>

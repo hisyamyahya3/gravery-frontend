@@ -1,0 +1,22 @@
+<template>
+    <div class="page">
+        <div class="page-content" id="petaku"></div>
+        <div class="fab fab-extended fab-center-bottom">
+            <a href="#" @click="${()=>order()}">
+                <i class="icon f7-icons">circle_grid_3x3_fill</i>
+                <div class="fab-text">Selesaikan</div>
+            </a>
+        </div>
+    </div>
+</template>
+<script>
+    export default function (props, ctx){
+        let $on = ctx.$on;
+        $("pageBeforeIn", () => {
+            let hasilpeta = L.map('petaku').setView([-7.481311, 112.424242], 19);       
+            L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']}).addTo(hasilpeta);
+            let icon = L.marker([-7.481311, 112.424242], {draggable: true}).addTo(hasilpeta).bindPopup("Pengadilan Agama Mojokerto");
+        })
+        return $render
+    }
+</script>
