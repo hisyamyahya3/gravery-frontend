@@ -25,10 +25,10 @@
 </template>
 <script>
     export default async function (props, ctx) {
-        let $on = ctx.$on;
-        $on("pageInit", async () => {
+        ctx.$on("pageInit", async () => {
            showListOrder()
         })
+
         return $render
     }
 </script>
