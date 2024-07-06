@@ -34,8 +34,8 @@ register = async () => {
 
     if (role == "pelanggan") {
         const position = await getLocation()
-        latitude = position.latitude
-        longitude = position.longitude
+        latitude = position.latitude.toString()
+        longitude = position.longitude.toString()
     }
 
     $.ajax({
