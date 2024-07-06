@@ -1,35 +1,43 @@
-function detectLocation () {
-    navigator.geolocation.getCurrentPosition(detectSucceed, detectFailed, {timeout: 7000, enableHighAccuracy: true});
+function getLocation() {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                resolve({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                });
+            },
+            (error) => {
+                console.error('Error code:', error.code, 'Error message:', error.message)
+            },
+            {
+                timeout: 10000,
+                enableHighAccuracy: true
+            }
+        );
+    })
 }
 
-function detectSucceed (position) {
-    
-}
+register = async () => {
+    const name = $('.regis-name').val()
+    const username = $('.regis-username').val()
+    const password = $('.regis-password').val()
+    const role = $('.regis-as').val()
+    const roleID = (role == "pelanggan") ? 1 : 2
+    let latitude
+    let longitude
 
-function detectFailed(error) {
-    app.dialog.alert(`Kode Error: ${error.code} - ${error.message}`,"Error");
-}
-
-function register() {
-    let name = $('.regis-name').val();
-    let username = $('.regis-username').val();
-    let password = $('.regis-password').val();
-    let lat =  position.coords.latitude;
-    let long = position.coords.longitude;
-    let role =  $('.regis-as').val();
-    let roleID 
-    if (role == "pelanggan"){
-        detectLocation()
-    } else {
-        roleID = 2
-    }
-    if(name == "" || username == "" || password == "" || roleID == ""){
-        app.dialog.alert("Form Registrasi Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu","Error");
+    if (name == "" || username == "" || password == "" || roleID == "") {
+        app.dialog.alert("Form Registrasi Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu", "Error");
         return;
     }
-    console.log(`lat ${lat} dan long ${long}`);
-    return;
-    //console.log(`${name} dan ${username} dan ${password} dan ${regisas}`);
+
+    if (role == "pelanggan") {
+        const position = await getLocation()
+        latitude = position.latitude
+        longitude = position.longitude
+    }
+
     $.ajax({
         url: "https://gravery-api.vercel.app/api/register",
         method: "POST",
@@ -37,20 +45,20 @@ function register() {
             name: name,
             username: username,
             password: password,
-            lat: lat,
-            long: long,
+            lat: latitude,
+            long: longitude,
             roleID: roleID
         },
         success: function (result) {
             let message = result.message
-            console.log(result);
-            if ( result.status == "ok" ){
-                app.dialog.alert("Berhasil Registrasi, Silahkan Login Sesuai", "Info")
-            } else {
-                app.dialog.alert(message, "Info")
-                return;
+
+            if (result.status != "ok") {
+                return app.dialog.alert(message, "Info")
             }
-            app.views.main.router.navigate('/first/');
+
+            app.dialog.alert("Berhasil Registrasi, Silahkan Login Sesuai", "Info")
+
+            app.views.main.router.navigate('/first/')
         },
         error: function () {
             app.dialog.alert("Tidak Terhubung dengan Server!", "Error")
@@ -61,8 +69,8 @@ function register() {
 function login() {
     let username = $('.login-username').val();
     let password = $('.login-password').val();
-    if(username == "" || password == ""){
-        app.dialog.alert("Form Login Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu","Error");
+    if (username == "" || password == "") {
+        app.dialog.alert("Form Login Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu", "Error");
         return;
     }
 
@@ -75,7 +83,7 @@ function login() {
         },
         success: function (result) {
             let message = result.message
-            if ( result.status == "ok"){
+            if (result.status == "ok") {
                 sessionStorage.setItem("isLogin", true)
                 sessionStorage.setItem("username", result.data)
                 app.views.main.router.navigate('/');
@@ -91,9 +99,9 @@ function login() {
 }
 
 async function logout() {
-    app.dialog.confirm('Apakah Anda Yakin Ingin Keluar?','Info', function () {
+    app.dialog.confirm('Apakah Anda Yakin Ingin Keluar?', 'Info', function () {
         const isLogin = sessionStorage.getItem('isLogin')
-    
+
         if (isLogin) {
             sessionStorage.removeItem('isLogin')
             sessionStorage.removeItem('username')
