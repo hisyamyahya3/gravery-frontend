@@ -1,24 +1,31 @@
-function showListOrder () {
+showListOrder = () => {
+    const latitude = localStorage.getItem('latitude')
+    const longitude = localStorage.getItem('longitude')
+
     $.ajax({
         url: "https://gravery-api.vercel.app/api/list-order",
-        method: "GET",
+        method: "POST",
+        data: {
+            lat: latitude,
+            long: longitude
+        },
         success: function (result) {
-            console.log(result);
-
             let temp = ''
 
             result.data.forEach((d) => {
                 if (!d.is_picked_up) {
                     temp += `<div class="card">
                                 <div class="card-content card-content-padding">
-                                    <h2 class="col" style="font-weight: bold;">${d.customer.name}</h2>
+                                    <h2 class="col" style="font-weight: bold;">${d.customer_name}</h2>
                                     <p>Total: ${rupiahFormatter(d.total)}</p>
+                                    <p>Berat (Dalam Kg): ${d.total_weight}</p>
+                                    <p>Jarak: ${d.distance} Km</p>
                                     <div class="left">
                                         <button class="button button-small button-tonal" onclick="detailPickup(${d.customer_id})">Jemput</button>
                                     </div>
                                 </div>
                             </div>`
-                }              
+                }
             })
 
             $('#list-order').html(temp);
@@ -29,7 +36,7 @@ function showListOrder () {
     })
 }
 
-function showOngoing () {
+function showOngoing() {
     $.ajax({
         url: "https://gravery-api.vercel.app/api/list-order",
         method: "GET",
@@ -49,7 +56,7 @@ function showOngoing () {
                                     </div>
                                 </div>
                             </div>`
-                }              
+                }
             })
 
             $('#ongoing-list-order').html(temp);
@@ -60,15 +67,13 @@ function showOngoing () {
     })
 }
 
-function detailPickup (id) {
-    // app.dialog.alert(id);
+detailPickup = (id) => {
     app.views.main.router.navigate(`/detail-pickup/${id}`);
 }
 
-function makePickUp (id) {
+makePickUp = (id) => {
     let courierId = sessionStorage.getItem("courierId");
-    console.log(id);
-    return;
+
     $.ajax({
         url: `https://gravery-api.vercel.app/api/pickup-order/${id}`,
         method: "POST",
@@ -78,7 +83,7 @@ function makePickUp (id) {
         success: function (result) {
             let message = result.message;
             console.log(result);
-            app.dialog.alert(message,"Info")
+            app.dialog.alert(message, "Info")
         },
         error: function () {
             app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
@@ -86,12 +91,11 @@ function makePickUp (id) {
     })
 }
 
-function detailOngoing (id) {
-    // app.dialog.alert(id);
+function detailOngoing(id) {
     app.views.main.router.navigate(`/detail-ongoing/${id}`);
 }
 
-function finishPickup (id) {
+finishPickup = (id) => {
     let courierId = sessionStorage.getItem("courierId");
     $.ajax({
         url: `https://gravery-api.vercel.app/api/finish/pickup-order/${id}`,
@@ -102,7 +106,7 @@ function finishPickup (id) {
         success: function (result) {
             let message = result.message;
             console.log(result);
-            app.dialog.alert(message,"Info")
+            app.dialog.alert(message, "Info")
         },
         error: function () {
             app.dialog.alert("Tidak Terhubung dengan Server!", "Error");

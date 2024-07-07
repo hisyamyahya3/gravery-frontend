@@ -110,8 +110,7 @@
 </template>
 <script>
     export default async function (props, ctx) {
-        let $on = ctx.$on;
-        $on("pageInit", async () => {
+        ctx.$on("pageInit", async () => {
             let username = sessionStorage.getItem("username");
 
             await $.ajax({

@@ -66,9 +66,10 @@ register = async () => {
     })
 }
 
-function login() {
-    let username = $('.login-username').val();
-    let password = $('.login-password').val();
+login = async () => {
+    const username = $('.login-username').val();
+    const password = $('.login-password').val();
+
     if (username == "" || password == "") {
         app.dialog.alert("Form Login Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu", "Error");
         return;
@@ -81,11 +82,16 @@ function login() {
             username: username,
             password: password
         },
-        success: function (result) {
+        success: async function (result) {
             let message = result.message
+
             if (result.status == "ok") {
+                const position = await getLocation()
+                localStorage.setItem("latitude", position.latitude);
+                localStorage.setItem("longitude", position.longitude);
                 sessionStorage.setItem("isLogin", true)
                 sessionStorage.setItem("username", result.data)
+
                 app.views.main.router.navigate('/');
             } else {
                 app.dialog.alert(message, "Info")
