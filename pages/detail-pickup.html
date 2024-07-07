@@ -1,5 +1,5 @@
 <template>
-    <div class="page">
+    <div class="page display-none">
         <div class="navbar navbar-large navbar-transparent">
             <div class="navbar-bg"></div>
             <div class="navbar-inner navbar-inner-centered-title">
@@ -23,13 +23,13 @@
         <div class="page-content">
             <div class="block-title block-title-medium">Detail Pesanan</div>
             <div class="card">
-                <div class="card-content card-content-padding">
-                    <p>Customer id :</p>
+                <div class="card-content card-content-padding" id="detail-pickup-content">
+                    <!-- <p>Customer id :</p>
                     <p>Nama Pelanggan :</p>
                     <p>Alamat :</p>
                     <div class="left">
                         <a href="#" class="button button-tonal color-yellow" @click="${()=>makePickUp()}">Ambil Pesanan</a>
-                    </div>      
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -37,10 +37,37 @@
 </template>
 <script>
     export default function (props, ctx) {
-        let $on = ctx.$on;
-        $on("pageInit", () => {
-            makePickUp(props.id);
+        ctx.$on("pageInit", () => {
+            const orderID = props.id
+            
+            $.ajax({
+                url: `https://gravery-api.vercel.app/api/detail-order/${orderID}`,
+                method: 'GET',
+                success: async function(result) {
+                    $('#detail-pickup-content').html(fetchContent(result.data))
+                    
+                    $('.page').removeClass("display-none")
+                }
+            })
+
+            const fetchContent = (data) => {
+                let htmlTemplate = ''
+
+                data.forEach((d) => {
+                    htmlTemplate += `
+                        <p>Nama Pelanggan : ${d.customer_name}</p>
+                        <p>Alamat Pelanggan: ${(d.customer_address) ? d.customer_address : ''}</p>
+                        <p>Berat sampah: ${d.total_weight} Kg</p>
+                        <div class="left">
+                            <a href="#" class="button button-tonal color-yellow" onclick="makePickUp(${orderID})">Ambil Pesanan</a>
+                        </div>                    
+                    `
+                })
+
+                return htmlTemplate
+            }
         })
+
         return $render
     }
 </script>

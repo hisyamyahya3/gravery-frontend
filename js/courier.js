@@ -21,7 +21,7 @@ showListOrder = () => {
                                     <p>Berat (Dalam Kg): ${d.total_weight}</p>
                                     <p>Jarak: ${d.distance} Km</p>
                                     <div class="left">
-                                        <button class="button button-small button-tonal" onclick="detailPickup(${d.customer_id})">Jemput</button>
+                                        <button class="button button-small button-tonal" onclick="detailPickup(${d.id})">Jemput</button>
                                     </div>
                                 </div>
                             </div>`
@@ -36,7 +36,7 @@ showListOrder = () => {
     })
 }
 
-function showOngoing() {
+showOngoing = () => {
     $.ajax({
         url: "https://gravery-api.vercel.app/api/list-order",
         method: "GET",
@@ -71,18 +71,17 @@ detailPickup = (id) => {
     app.views.main.router.navigate(`/detail-pickup/${id}`);
 }
 
-makePickUp = (id) => {
+makePickUp = (orderID) => {
     let courierId = sessionStorage.getItem("courierId");
 
     $.ajax({
-        url: `https://gravery-api.vercel.app/api/pickup-order/${id}`,
+        url: `https://gravery-api.vercel.app/api/pickup-order/${orderID}`,
         method: "POST",
         data: {
             courier_id: courierId,
         },
         success: function (result) {
             let message = result.message;
-            console.log(result);
             app.dialog.alert(message, "Info")
         },
         error: function () {
@@ -91,7 +90,7 @@ makePickUp = (id) => {
     })
 }
 
-function detailOngoing(id) {
+detailOngoing = (id) => {
     app.views.main.router.navigate(`/detail-ongoing/${id}`);
 }
 
