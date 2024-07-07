@@ -9,26 +9,28 @@
                         <span class="if-not-md">Framework7</span>
                     </a>
                 </div>
-                <div class="title sliding">Saat Ini</div>
+                <!-- <div class="title sliding">Saat Ini</div> -->
                 <div class="title-large">
-                    <div class="title-large-text">Saat Ini</div>
+                    <div class="title-large-text">Ongoing Pickup</div>
                 </div>
             </div>
         </div>
-        <div class="page-content">
-            <div class="block-title block-title-medium">List Pelanggan</div>
-            <div class="grid grid-cols" id="ongoing-list-order">
-                
+        <div class="page-content ongoing-content-wrapper">
+            <div class="ongoing-content display-none">
+                <div class="block-title block-title-medium">Detail Pesanan</div>
+                <div class="grid grid-cols" id="ongoing-list-order"></div>
+                <div class="block-title block-title-medium">Detail Order</div>
+                <div class="grid grid-cols" id="pickup-detail-orderitems"></div>
             </div>
         </div>
     </div>
 </template>
 <script>
     export default async function (props, ctx) {
-        let $on = ctx.$on;
-        $on("pageInit", async () => {
+        ctx.$on("pageInit", async () => {
             showOngoing()
         })
+
         return $render
     }
 </script>

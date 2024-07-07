@@ -32,10 +32,10 @@
 </template>
 <script>
     export default function (props, ctx) {
-        let $on = ctx.$on;
-        $on("pageInit", () => {
-            finishPickup(props.id);
+        ctx.$on("pageInit", () => {
+            finishPickup(props.id)
         })
+
         return $render
     }
 </script>
