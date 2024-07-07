@@ -1,5 +1,5 @@
 <template>
-    <div class="page">
+    <div class="page display-none">
         <div class="navbar navbar-large navbar-transparent">
             <div class="navbar-bg"></div>
             <div class="navbar-inner navbar-inner-centered-title">
@@ -109,19 +109,19 @@
     </div>
 </template>
 <script>
-    export default async function (props, ctx) {
-        ctx.$on("pageInit", async () => {
+    export default function (props, ctx) {
+        ctx.$on("pageInit", function() {
             let username = sessionStorage.getItem("username");
 
-            await $.ajax({
+            $.ajax({
                 url: "https://gravery-api.vercel.app/api/detail-profile",
                 method: "POST",
                 data: {
                     username: username
                 },
                 success: function(result) {
-                    console.log(result);
-                    // return;
+                    $('.page').removeClass("display-none")
+
                     if (result.role_id == 1){
                         $('.content-customer').removeClass("display-none")
                         sessionStorage.setItem("customerId", result.profile_id)
@@ -133,11 +133,11 @@
                         sessionStorage.setItem("courierId", result.profile_id)
                     }
                     
-                    let nama = result.name
-                    $('.nama').html(nama)
+                    $('.nama').html(result.name)
                 },
             })
         })
+
         return $render
     }
 </script>
