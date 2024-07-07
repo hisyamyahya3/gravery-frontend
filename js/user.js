@@ -69,8 +69,6 @@ register = async () => {
 login = async () => {
     const username = $('.login-username').val();
     const password = $('.login-password').val();
-    let latitude
-    let longitude
 
     if (username == "" || password == "") {
         app.dialog.alert("Form Login Ada yang Belum Diisi, Silahkan Diisi Terlebih Dahalu", "Error");
