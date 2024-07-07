@@ -100,19 +100,21 @@ detailPickup = (id) => {
 makePickUp = (orderID) => {
     let courierId = sessionStorage.getItem("courierId");
 
-    $.ajax({
-        url: `https://gravery-api.vercel.app/api/pickup-order/${orderID}`,
-        method: "POST",
-        data: {
-            courier_id: courierId,
-        },
-        success: function (result) {
-            let message = result.message;
-            app.dialog.alert(message, "Info")
-        },
-        error: function () {
-            app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
-        }
+    app.dialog.confirm('Apa kamu yakin ingin mengambil pesanan ini?', 'Info', () => {
+        $.ajax({
+            url: `https://gravery-api.vercel.app/api/pickup-order/${orderID}`,
+            method: "POST",
+            data: {
+                courier_id: courierId,
+            },
+            success: function (result) {
+                let message = result.message;
+                app.dialog.alert(message, "Info")
+            },
+            error: function () {
+                app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
+            }
+        })
     })
 }
 
