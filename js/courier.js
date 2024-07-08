@@ -12,6 +12,16 @@ showListOrder = () => {
         success: function (result) {
             let temp = ''
 
+            if (result.data == null) {
+                return $('.pickup-content-wrapper').html(`
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <h2>${result.message}</h2>
+                        </div>
+                    </div>
+                `)
+            }
+
             result.data.forEach((d) => {
                 if (!d.is_picked_up) {
                     temp += `<div class="card">
@@ -28,6 +38,7 @@ showListOrder = () => {
                 }
             })
 
+            $('.pickup-content').removeClass('display-none');
             $('#list-order').html(temp);
         },
         error: function () {
@@ -141,5 +152,48 @@ finishPickup = (orderID) => {
                 app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
             }
         })
+    })
+}
+
+historyPickup = () => {
+    let courierId = sessionStorage.getItem("courierId");
+
+    $.ajax({
+        url: "https://gravery-api.vercel.app/api/pickup/history",
+        method: "POST",
+        data: { courier_id: courierId },
+        success: function (result) {
+            const data = result.data
+
+            if (data == null) {
+                return $('.ongoing-content-wrapper').html(`
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <h2>${result.message}</h2>
+                        </div>
+                    </div>
+                `)
+            }
+
+            let template = ''
+
+            data.forEach((d) => {
+                template += `
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <p>Nama Pelanggan : ${d.customer_name}</p>
+                            <p>Tgl Dijemput : ${d.parsedPickedAt}</p>
+                            <p>Berat (Dalam Kg): ${d.total_weight}</p>
+                            <p>Total: ${rupiahFormatter(d.total)}</p>
+                            <p>Nama Kurir : ${d.courier_name}</p>
+                        </div>
+                    </div>`
+            })
+
+            $('#history-content').html(template);
+        },
+        error: function () {
+            app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
+        }
     })
 }

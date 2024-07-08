@@ -92,10 +92,9 @@ login = async () => {
                 sessionStorage.setItem("isLogin", true)
                 sessionStorage.setItem("username", result.data)
 
-                app.views.main.router.navigate('/');
+                return app.views.main.router.navigate('/');
             } else {
-                app.dialog.alert(message, "Info")
-                return;
+                return app.dialog.alert(message, "Info")
             }
         },
         error: function () {
