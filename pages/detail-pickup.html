@@ -38,6 +38,8 @@
                 url: `https://gravery-api.vercel.app/api/detail-order/${orderID}`,
                 method: 'GET',
                 success: async function(result) {
+                    localStorage.setItem('custLat', result.data[0].customer_lat)
+                    localStorage.setItem('custLong', result.data[0].customer_long)
                     $('#detail-pickup-content').html(fetchContent(result.data))
                     
                     $('.page').removeClass("display-none")
