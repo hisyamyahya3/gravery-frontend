@@ -1,0 +1,32 @@
+<template>
+    <div class="page">
+        <div class="navbar navbar-large navbar-transparent">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner navbar-inner-centered-title">
+                <div class="left">
+                    <a class="link back">
+                        <i class="icon icon-back"></i>
+                        <span class="if-not-md">Framework7</span>
+                    </a>
+                </div>
+                <div class="title sliding">Riwayat</div>
+                <div class="title-large">
+                    <div class="title-large-text">Riwayat</div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="block-title block-title-medium">Riwayat Pesanan</div>
+            <div id="order-history-content"></div>
+        </div>
+    </div>
+</template>
+<script>
+    export default async function (props, ctx) {
+        ctx.$on("pageInit", async () => {
+            await orderHistory()
+        })
+
+        return $render
+    }
+</script>
