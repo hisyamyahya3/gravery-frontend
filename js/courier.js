@@ -71,17 +71,20 @@ showOngoing = () => {
             let detailOrderTemplate = ''
 
             data.forEach((d) => {
-                orderTemplate += `<div class="card">
-                            <div class="card-content card-content-padding">
-                                <p>Nama Pelanggan: ${d.customer_name}</p>
-                                <p>Alamat Pelanggan: ${d.customer_address}</p>
-                                <p>Total: ${rupiahFormatter(d.total)}</p>
-                                <p>Tanggal Order: ${d.parsedOrderDate}</p>
-                                <div class="left">
-                                    <button class="button button-small button-tonal" onclick="finishPickup(${d.id})">Selesaikan Pesanan</button>
-                                </div>
-                            </div>
-                        </div>`
+                orderTemplate += `
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <p>Nama Pelanggan: ${d.customer_name}</p>
+                            <p>Alamat Pelanggan: ${d.customer_address}</p>
+                            <p>Total: ${rupiahFormatter(d.total)}</p>
+                            <p>Tanggal Order: ${d.parsedOrderDate}</p>
+                            <div class="left">
+                                <button class="button button-small button-tonal" onclick="finishPickup(${d.id})">Selesaikan Pesanan</button>
+                            </div><br>
+                            <a href="#" class="button button-small button-tonal" role="button" onclick="showOnMaps()">Lihat di Peta</a>
+                        </div>
+                    </div>
+                `
 
                 d.orderItems.forEach((orderItems) => {
                     detailOrderTemplate += `<div class="card">
@@ -93,6 +96,9 @@ showOngoing = () => {
                             </div>`
                 })
             })
+
+            localStorage.setItem('custLat', result.data[0].customer_lat)
+            localStorage.setItem('custLong', result.data[0].customer_long)
 
             $('.ongoing-content').removeClass('display-none')
             $('#ongoing-list-order').html(orderTemplate);
@@ -109,7 +115,11 @@ detailPickup = (id) => {
 }
 
 makePickUp = (orderID) => {
-    let courierId = sessionStorage.getItem("courierId");
+    let courierId = sessionStorage.getItem("courierId")
+    const courierLat = localStorage.getItem('latitude')
+    const courierLong = localStorage.getItem('longitude')
+    const custLat = localStorage.getItem('custLat')
+    const custLong = localStorage.getItem('custLong')
 
     app.dialog.confirm('Apa kamu yakin ingin mengambil pesanan ini?', 'Info', () => {
         $.ajax({
@@ -119,8 +129,12 @@ makePickUp = (orderID) => {
                 courier_id: courierId,
             },
             success: function (result) {
-                let message = result.message;
+                let message = result.message
                 app.dialog.alert(message, "Info")
+
+                if (result.status == 'ok') {
+                    return window.open(`https://www.google.com/maps/dir/?api=1&origin=${courierLat},${courierLong}&destination=${custLat},${custLong}`)
+                }
             },
             error: function () {
                 app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
@@ -196,4 +210,13 @@ historyPickup = () => {
             app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
         }
     })
+}
+
+showOnMaps = () => {
+    const courierLat = localStorage.getItem('latitude')
+    const courierLong = localStorage.getItem('longitude')
+    const custLat = localStorage.getItem('custLat')
+    const custLong = localStorage.getItem('custLong')
+
+    return window.open(`https://www.google.com/maps/dir/?api=1&origin=${courierLat},${courierLong}&destination=${custLat},${custLong}`)
 }
