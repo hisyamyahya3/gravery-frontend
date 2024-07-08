@@ -16,39 +16,17 @@
             </div>
         </div>
         <div class="page-content">
-            <div class="block-title block-title-medium">List Riwayat</div>
-            <div class="card">
-                <div class="card-content card-content-padding">
-                    <p>No. Order :</p>
-                    <p>Nama Pelanggan :</p>
-                    <p>Tgl Dijemput :</p>
-                    <p>Nama Kurir :</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content card-content-padding">
-                    <p>No. Order :</p>
-                    <p>Nama Pelanggan :</p>
-                    <p>Tgl Dijemput :</p>
-                    <p>Nama Kurir :</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content card-content-padding">
-                    <p>No. Order :</p>
-                    <p>Nama Pelanggan :</p>
-                    <p>Tgl Dijemput :</p>
-                    <p>Nama Kurir :</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content card-content-padding">
-                    <p>No. Order :</p>
-                    <p>Nama Pelanggan :</p>
-                    <p>Tgl Dijemput :</p>
-                    <p>Nama Kurir :</p>
-                </div>
-            </div>
+            <div class="block-title block-title-medium">Riwayat Pesanan</div>
+            <div id="history-content"></div>
         </div>
     </div>
 </template>
+<script>
+    export default async function (props, ctx) {
+        ctx.$on("pageInit", async () => {
+            await historyPickup()
+        })
+
+        return $render
+    }
+</script>
