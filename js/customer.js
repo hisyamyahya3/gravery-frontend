@@ -42,6 +42,49 @@ makeOrder = () => {
     return app.views.main.router.navigate('/detail-order/');
 }
 
+orderHistory = () => {
+    let customerID = sessionStorage.getItem("customerId");
+
+    $.ajax({
+        url: "https://gravery-api.vercel.app/api/order/history",
+        method: "POST",
+        data: { customer_id: customerID },
+        success: function (result) {
+            const data = result.data
+
+            if (data == null) {
+                return $('.ongoing-content-wrapper').html(`
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <h2>${result.message}</h2>
+                        </div>
+                    </div>
+                `)
+            }
+
+            let template = ''
+
+            data.forEach((d) => {
+                template += `
+                    <div class="card">
+                        <div class="card-content card-content-padding">
+                            <p>Nama Pelanggan : ${d.customer_name}</p>
+                            <p>Tgl Dijemput : ${d.parsedPickedAt}</p>
+                            <p>Berat (Dalam Kg): ${d.total_weight}</p>
+                            <p>Total: ${rupiahFormatter(d.total)}</p>
+                            <p>Nama Kurir : ${d.courier_name}</p>
+                        </div>
+                    </div>`
+            })
+
+            $('#order-history-content').html(template);
+        },
+        error: function () {
+            app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
+        }
+    })
+}
+
 function maps() {
     app.views.main.router.navigate('/maps/');
 }
