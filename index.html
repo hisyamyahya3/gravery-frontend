@@ -31,55 +31,5 @@
     <script src="js/courier.js"></script>
     <script src="js/rupiah-formatter.js"></script>
     <script src="js/user.js"></script>
-    <!-- <script>
-        let hasilpeta = L.map('petaku').setView([-7.481311, 112.424242], 19);       
-        L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']}).addTo(hasilpeta);
-        let icon = L.marker([-7.481311, 112.424242], {draggable: true}).addTo(hasilpeta).bindPopup("Pengadilan Agama Mojokerto");
-
-        function direksiLokasiSaya() {
-            app.views.main.router.navigate('/page/');
-            return;
-            navigator.geolocation.getCurrentPosition(function(posisi) {
-                let lintang = posisi.coords.latitude;
-                let bujur = posisi.coords.longitude;
-
-                // Membuat marker lokasi pengguna
-                let markerSaya = L.marker([lintang, bujur]).addTo(hasilpeta).bindPopup("Lokasi Saya");
-
-                // Membuat rute menggunakan Leaflet Routing Machine
-                L.Routing.control({
-                    waypoints: [
-                        L.latLng(lintang, bujur), // Lokasi pengguna
-                        L.latLng(icon.getLatLng().lat, icon.getLatLng().lng) // Lokasi tujuan icon
-                    ],
-                    routeWhileDragging: true, // Memperbarui rute saat pengguna menggeser marker
-                    addWaypoints: false, // Menyembunyikan waypoint pada rute
-                    lineOptions: {
-                        styles: [{color: '#3388ff', opacity: 0.7, weight: 5}] // Mengatur penampilan rute
-                    },
-                    instructions: {
-                        show: false // Menyembunyikan detail estimasi rute
-                    },
-                    router: new L.Routing.OSRMv1({
-                        serviceUrl: 'https://router.project-osrm.org/route/v1'
-                    })
-                }).addTo(hasilpeta);
-
-                hasilpeta.flyTo([lintang, bujur], 14);
-
-                app.sheet.close('.demo-sheet-swipe-to-close');
-
-            }, function(error) {
-                app.dialog.alert(error.message, "Gagal");
-            }, { enableHighAccuracy: true });
-        }
-
-        let link = document.getElementById("lamanweb");
-
-        link.addEventListener("click", function(event) {
-            event.preventDefault();
-            window.location.href = "http://www.pa-mojokerto.go.id/";
-        });
-    </script> -->
 </body>
 </html>
