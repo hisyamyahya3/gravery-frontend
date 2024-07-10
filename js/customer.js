@@ -1,3 +1,21 @@
+makeOrder = () => {
+    let organic = $('#organic').val();
+    let anorganic = $('#anorganic').val();
+    let organic_price = organic * 3000;
+    let anorganic_price = anorganic * 5000;
+
+    if (!organic && !anorganic) {
+        return app.dialog.alert("Silahkan pilih jenis sampah organic atau anorganic terlebih dahulu!", "Info")
+    }
+
+    localStorage.setItem("organic_size", organic);
+    localStorage.setItem("anorganic_size", anorganic);
+    localStorage.setItem("organic_price", organic_price);
+    localStorage.setItem("anorganic_price", anorganic_price);
+
+    return app.views.main.router.navigate('/detail-order/');
+}
+
 createOrder = () => {
     let username = sessionStorage.getItem("username")
     let organic = localStorage.getItem("organic_size");
@@ -22,24 +40,6 @@ createOrder = () => {
             app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
         }
     })
-}
-
-makeOrder = () => {
-    let organic = $('#organic').val();
-    let anorganic = $('#anorganic').val();
-    let organic_price = organic * 3000;
-    let anorganic_price = anorganic * 5000;
-
-    if (!organic && !anorganic) {
-        return app.dialog.alert("Silahkan pilih jenis sampah organic atau anorganic terlebih dahulu!", "Info")
-    }
-
-    localStorage.setItem("organic_size", organic);
-    localStorage.setItem("anorganic_size", anorganic);
-    localStorage.setItem("organic_price", organic_price);
-    localStorage.setItem("anorganic_price", anorganic_price);
-
-    return app.views.main.router.navigate('/detail-order/');
 }
 
 orderHistory = () => {
