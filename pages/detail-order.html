@@ -42,6 +42,7 @@
         $on("pageInit", async () => {
             let nama = sessionStorage.getItem("CustomerName");
 
+            let custAddress = localStorage.getItem("customerAddress");
             let organic = localStorage.getItem("organic_size");
             let anorganic = localStorage.getItem("anorganic_size");
             let organic_price = parseInt(localStorage.getItem("organic_price"));
@@ -52,6 +53,7 @@
             $('#detail-card').html(`
                 <div class="card-content card-content-padding">
                     <h4>Nama Pelanggan : ${nama}</h4>
+                    <h4>Alamat pengiriman : ${custAddress}</h4>
                     ${organic ?
                         `<h4>Jenis Sampah : Organic</h4>
                         <h4>Berat Sampah : ${organic}</h4>
@@ -63,7 +65,7 @@
                         <h4>Biaya : ${rupiahFormatter(anorganic_price)}</h4>` : ''
                         }
                     <div class="left">
-                        <a href='#' class="button button-tonal color-yellow create-order" onclick="${createOrder()}">Konfirmasi Pesanan</a>
+                        <a href='#' class="button button-tonal color-yellow create-order" onclick="createOrder()">Konfirmasi Pesanan</a>
                     </div>
                 </div>
             `)
