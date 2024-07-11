@@ -15,14 +15,9 @@
                 </div>
             </div>
         </div>
-        <div class="toolbar tabbar tabbar-icons toolbar-bottom">
-            <div class="toolbar-inner" style="display: flex; justify-content: center; align-items: center;">
-                <div class="teks-tengah font17">Total: Rp. 10.000</div>         
-            </div>
-        </div>
         <div class="page-content">
             <div class="grid grid-cols-2">
-                <div class="card">
+                <div class="card organic-card-simulation">
                     <div class="card-content card-content-padding">
                         <a class="item-content item-link" href="#">
                             <div class="item-media"><img src="img/leaf.png" class="besar-icon" /></div>
@@ -32,12 +27,12 @@
                         </a>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card anorganic-card-simulation">
                     <div class="card-content card-content-padding">
                         <a class="item-content item-link" href="#">
                             <div class="item-media"><img src="img/metal-recycling.png" class="besar-icon" /></div>
                             <div class="item-inner">
-                                <div class="item-title teks-tengah">Aorganik</div>
+                                <div class="item-title teks-tengah">Anorganik</div>
                             </div>
                         </a>                
                     </div>
@@ -49,7 +44,7 @@
                         <div class="item-inner">
                             <div class="item-title item-floating-label">Berat Sampah (Kg)</div>
                             <div class="item-input-wrap">
-                                <input name="category_weight" type="text" readonly id="Weight"/>
+                                <input name="garbage_size_simulation" type="number" readonly/>
                                 <span class="input-clear-button"></span>
                             </div>
                         </div>
@@ -58,10 +53,84 @@
             </div>
             <div class="card">
                 <div class="card-content card-content-padding">
-                    <p>Jenis Sampah :</p>
-                    <p>Harga :</p>
+                    <p>Jenis Sampah : <span class="garbage-type-simulation"></span></p>
+                    <p>Harga Per Kg : <span class="garbage-price-simulation"></span></p>
+                    <p>Total : <span class="garbage-total-price-simulation"></span></p>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+    export default function (props, ctx) {
+        ctx.$on("pageInit", function() {
+            let garbageType = ''
+            let garbageSize = 0
+            let garbagePrice
+
+            $('input[name=garbage_size_simulation]').on('click', function() {
+                if (!garbageType) {
+                    return app.dialog.alert("Kamu belum memilih jenis sampah", "Informasi")
+                }
+            })
+
+            $('input[name=garbage_size_simulation]').on('input', function() {
+                garbageSize = $(this).val()
+                updateTotalPrice()
+            })
+
+            function updateTotalPrice() {
+                if (garbageType && garbagePrice && garbageSize) {
+                    let total = garbageSize * garbagePrice
+                    $('.garbage-total-price-simulation').html(rupiahFormatter(total))
+                }
+            }
+
+            $(document).on('click', '.organic-card-simulation', function() {
+                $(this).toggleClass('active');
+                
+                if ($(this).hasClass('active')) {
+                    garbageType = 'Organik';
+                    garbagePrice = 3000;
+
+                    $('input[name=garbage_size_simulation]').removeAttr('readonly'); // Enable the input field
+                    $('.garbage-type-simulation').html(garbageType);
+                    $('.garbage-price-simulation').html(rupiahFormatter(garbagePrice));
+                    updateTotalPrice();
+                } else {
+                    garbageType = '';
+                    garbagePrice = 0;
+
+                    $('input[name=garbage_size_simulation]').attr('readonly', 'readonly'); // Disable the input field
+                    $('.garbage-type-simulation').html('');
+                    $('.garbage-price-simulation').html('');
+                    $('.garbage-total-price-simulation').html('');
+                }
+            });
+
+            $(document).on('click', '.anorganic-card-simulation', function() {
+                $(this).toggleClass('active');
+
+                if ($(this).hasClass('active')) {
+                    garbageType = 'Anorganik'
+                    garbagePrice = 5000
+
+                    $('input[name=garbage_size_simulation]').removeAttr('readonly')
+                    $('.garbage-type-simulation').html(garbageType)
+                    $('.garbage-price-simulation').html(rupiahFormatter(garbagePrice))
+                    updateTotalPrice()
+                } else {
+                    garbageType = '';
+                    garbagePrice = 0;
+
+                    $('input[name=garbage_size_simulation]').attr('readonly', 'readonly'); // Disable the input field
+                    $('.garbage-type-simulation').html('');
+                    $('.garbage-price-simulation').html('');
+                    $('.garbage-total-price-simulation').html('');
+                }
+            })
+        })
+
+        return $render
+    }
+</script>
