@@ -48,7 +48,7 @@ showListOrder = () => {
 }
 
 showOngoing = () => {
-    let courierId = sessionStorage.getItem("courierId");
+    const courierId = sessionStorage.getItem("courierId");
 
     $.ajax({
         url: "https://gravery-api.vercel.app/api/ongoing-order",
@@ -100,6 +100,50 @@ showOngoing = () => {
             localStorage.setItem('custLat', result.data[0].customer_lat)
             localStorage.setItem('custLong', result.data[0].customer_long)
 
+            // map
+            const courierLat = localStorage.getItem('latitude')
+            const courierLong = localStorage.getItem('longitude')
+            const custLat = result.data[0].customer_lat
+            const custLong = result.data[0].customer_long
+
+            let map = L.map('map').setView([courierLat, courierLong], 18);
+
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Marker for the user's location
+            let marker = L.marker([courierLat, courierLong]).addTo(map);
+            marker.bindTooltip('Posisi kamu', { permanent: true }).openTooltip()
+            let customerMarker = L.marker([custLat, custLong]).addTo(map);
+            customerMarker.bindTooltip('Posisi customer', { permanent: true }).openTooltip()
+
+            // Watch user's location and update the marker
+            navigator.geolocation.watchPosition(function (position) {
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+                let accuracy = position.coords.accuracy;
+
+                // Update the marker position
+                marker.setLatLng([lat, lon]);
+
+                // Center the map on the new position
+                map.setView([lat, lon]);
+
+                // Optionally, add a circle to show the accuracy of the location
+                let circle = L.circle([lat, lon], {
+                    radius: accuracy
+                }).addTo(map);
+            }, function (error) {
+                console.error("Error watching position: ", error);
+            }, {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 60000
+            });
+            // end of map
+
             $('.ongoing-content').removeClass('display-none')
             $('#ongoing-list-order').html(orderTemplate);
             $('#pickup-detail-orderitems').html(detailOrderTemplate)
@@ -115,7 +159,7 @@ detailPickup = (id) => {
 }
 
 makePickUp = (orderID) => {
-    let courierId = sessionStorage.getItem("courierId")
+    const courierId = sessionStorage.getItem("courierId")
     const courierLat = localStorage.getItem('latitude')
     const courierLong = localStorage.getItem('longitude')
     const custLat = localStorage.getItem('custLat')
@@ -148,19 +192,25 @@ detailOngoing = (id) => {
 }
 
 finishPickup = (orderID) => {
-    let courierId = sessionStorage.getItem("courierId");
+    const latitude = localStorage.getItem('latitude')
+    const longitude = localStorage.getItem('longitude')
+    const courierId = sessionStorage.getItem("courierId")
 
     app.dialog.confirm('Apa kamu yakin ingin menyelesaikan pesanan ini?', 'Info', () => {
         $.ajax({
             url: `https://gravery-api.vercel.app/api/finish/pickup-order/${orderID}`,
             method: "POST",
             data: {
+                lat: latitude,
+                long: longitude,
                 courier_id: courierId,
             },
             success: function (result) {
-                let message = result.message;
-                app.dialog.alert(message, "Info")
-                app.views.main.router.refreshPage()
+                app.dialog.alert(result.message, "Info")
+
+                if (result.status == 'ok') {
+                    return app.views.main.router.refreshPage()
+                }
             },
             error: function () {
                 app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
@@ -170,7 +220,7 @@ finishPickup = (orderID) => {
 }
 
 historyPickup = () => {
-    let courierId = sessionStorage.getItem("courierId");
+    const courierId = sessionStorage.getItem("courierId")
 
     $.ajax({
         url: "https://gravery-api.vercel.app/api/pickup/history",
