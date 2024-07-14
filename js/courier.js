@@ -48,7 +48,7 @@ showListOrder = () => {
 }
 
 showOngoing = () => {
-    let courierId = sessionStorage.getItem("courierId");
+    const courierId = sessionStorage.getItem("courierId");
 
     $.ajax({
         url: "https://gravery-api.vercel.app/api/ongoing-order",
@@ -115,7 +115,7 @@ detailPickup = (id) => {
 }
 
 makePickUp = (orderID) => {
-    let courierId = sessionStorage.getItem("courierId")
+    const courierId = sessionStorage.getItem("courierId")
     const courierLat = localStorage.getItem('latitude')
     const courierLong = localStorage.getItem('longitude')
     const custLat = localStorage.getItem('custLat')
@@ -148,19 +148,25 @@ detailOngoing = (id) => {
 }
 
 finishPickup = (orderID) => {
-    let courierId = sessionStorage.getItem("courierId");
+    const latitude = localStorage.getItem('latitude')
+    const longitude = localStorage.getItem('longitude')
+    const courierId = sessionStorage.getItem("courierId")
 
     app.dialog.confirm('Apa kamu yakin ingin menyelesaikan pesanan ini?', 'Info', () => {
         $.ajax({
             url: `https://gravery-api.vercel.app/api/finish/pickup-order/${orderID}`,
             method: "POST",
             data: {
+                lat: latitude,
+                long: longitude,
                 courier_id: courierId,
             },
             success: function (result) {
-                let message = result.message;
-                app.dialog.alert(message, "Info")
-                app.views.main.router.refreshPage()
+                app.dialog.alert(result.message, "Info")
+
+                if (result.status == 'ok') {
+                    return app.views.main.router.refreshPage()
+                }
             },
             error: function () {
                 app.dialog.alert("Tidak Terhubung dengan Server!", "Error");
@@ -170,7 +176,7 @@ finishPickup = (orderID) => {
 }
 
 historyPickup = () => {
-    let courierId = sessionStorage.getItem("courierId");
+    const courierId = sessionStorage.getItem("courierId")
 
     $.ajax({
         url: "https://gravery-api.vercel.app/api/pickup/history",
