@@ -230,7 +230,7 @@ historyPickup = () => {
             const data = result.data
 
             if (data == null) {
-                return $('.ongoing-content-wrapper').html(`
+                return $('#history-content').html(`
                     <div class="card">
                         <div class="card-content card-content-padding">
                             <h2>${result.message}</h2>
