@@ -1,22 +1,22 @@
-function getLocation() {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                });
-            },
-            (error) => {
-                console.error('Error code:', error.code, 'Error message:', error.message)
-            },
-            {
-                timeout: 10000,
-                enableHighAccuracy: true
-            }
-        );
-    })
-}
+// function getLocation() {
+//     return new Promise((resolve, reject) => {
+//         navigator.geolocation.getCurrentPosition(
+//             (position) => {
+//                 resolve({
+//                     latitude: position.coords.latitude,
+//                     longitude: position.coords.longitude
+//                 });
+//             },
+//             (error) => {
+//                 console.error('Error code:', error.code, 'Error message:', error.message)
+//             },
+//             {
+//                 timeout: 10000,
+//                 enableHighAccuracy: true
+//             }
+//         );
+//     })
+// }
 
 register = async () => {
     const name = $('.regis-name').val()
@@ -56,7 +56,8 @@ register = async () => {
                 return app.dialog.alert(message, "Info")
             }
 
-            app.dialog.alert("Berhasil Registrasi, Silahkan Login Sesuai", "Info")
+            app.dialog.alert(`Registrasi ${role} berhasil, silahkan login!`, 'Registrasi Berhasil')
+            // app.dialog.alert("Berhasil Registrasi, Silahkan Login Sesuai", "Info")
 
             app.views.main.router.navigate('/first/')
         },

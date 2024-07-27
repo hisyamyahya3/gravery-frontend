@@ -1,13 +1,35 @@
-showListOrder = () => {
-    const latitude = localStorage.getItem('latitude')
-    const longitude = localStorage.getItem('longitude')
+// function getLocation() {
+//     return new Promise((resolve, reject) => {
+//         navigator.geolocation.getCurrentPosition(
+//             (position) => {
+//                 resolve({
+//                     latitude: position.coords.latitude,
+//                     longitude: position.coords.longitude
+//                 });
+//             },
+//             (error) => {
+//                 console.error('Error code:', error.code, 'Error message:', error.message)
+//             },
+//             {
+//                 timeout: 10000,
+//                 enableHighAccuracy: true
+//             }
+//         );
+//     })
+// }
+
+showListOrder = async () => {
+    // const latitude = localStorage.getItem('latitude')
+    // const longitude = localStorage.getItem('longitude')
+
+    const position = await getLocation()
 
     $.ajax({
         url: "https://gravery-api.vercel.app/api/list-order",
         method: "POST",
         data: {
-            lat: latitude,
-            long: longitude
+            lat: position.latitude,
+            long: position.longitude
         },
         success: function (result) {
             let temp = ''
@@ -158,10 +180,13 @@ detailPickup = (id) => {
     app.views.main.router.navigate(`/detail-pickup/${id}`);
 }
 
-makePickUp = (orderID) => {
+makePickUp = async (orderID) => {
     const courierId = sessionStorage.getItem("courierId")
-    const courierLat = localStorage.getItem('latitude')
-    const courierLong = localStorage.getItem('longitude')
+    // const courierLat = localStorage.getItem('latitude')
+    // const courierLong = localStorage.getItem('longitude')
+    const position = await getLocation()
+    const courierLat = position.latitude
+    const courierLong = position.longitude
     const custLat = localStorage.getItem('custLat')
     const custLong = localStorage.getItem('custLong')
 
@@ -191,18 +216,21 @@ detailOngoing = (id) => {
     app.views.main.router.navigate(`/detail-ongoing/${id}`);
 }
 
-finishPickup = (orderID) => {
-    const latitude = localStorage.getItem('latitude')
-    const longitude = localStorage.getItem('longitude')
+finishPickup = async (orderID) => {
     const courierId = sessionStorage.getItem("courierId")
+    // const latitude = localStorage.getItem('latitude')
+    // const longitude = localStorage.getItem('longitude')
+    const position = await getLocation()
+    const courierLat = position.latitude
+    const courierLong = position.longitude
 
     app.dialog.confirm('Apa kamu yakin ingin menyelesaikan pesanan ini?', 'Info', () => {
         $.ajax({
             url: `https://gravery-api.vercel.app/api/finish/pickup-order/${orderID}`,
             method: "POST",
             data: {
-                lat: latitude,
-                long: longitude,
+                lat: courierLat,
+                long: courierLong,
                 courier_id: courierId,
             },
             success: function (result) {
@@ -262,9 +290,12 @@ historyPickup = () => {
     })
 }
 
-showOnMaps = () => {
-    const courierLat = localStorage.getItem('latitude')
-    const courierLong = localStorage.getItem('longitude')
+showOnMaps = async () => {
+    // const courierLat = localStorage.getItem('latitude')
+    // const courierLong = localStorage.getItem('longitude')
+    const position = await getLocation()
+    const courierLat = position.latitude
+    const courierLong = position.longitude
     const custLat = localStorage.getItem('custLat')
     const custLong = localStorage.getItem('custLong')
 
