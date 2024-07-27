@@ -16,6 +16,9 @@
                     <h1 class="nama">
                         
                     </h1>
+                    <div class="content-customer">
+                        <h3 class="customer-balance"></h3>
+                    </div>
                     <div class="left">
                         <button class="button button-tonal color-yellow" @click="${()=>logout()}">Keluar</button>
                     </div>
@@ -66,10 +69,11 @@
             <div class="grid grid-cols-2 content-customer display-none">
                 <div class="card">
                     <div class="card-content card-content-padding">
-                        <a class="item-content item-link" href="/order/">
+                        <!-- <a class="item-content item-link" id="cust-order-menu" href="/order/"> -->
+                        <a class="item-content item-link" id="cust-order-menu" href="#">
                             <div class="item-media"><img src="img/receipt.png" class="besar-icon" /></div>
                             <div class="item-inner">
-                                <div class="item-title teks-tengah"><h4>Pesan</h4></div>
+                                <div class="item-title teks-tengah"><h4>Setor Sampah</h4></div>
                             </div>
                         </a>
                     </div>
@@ -97,7 +101,7 @@
                 <div class="card">
                     <div class="card-content card-content-padding">
                         <a class="item-content item-link" href="/simulation/">
-                            <div class="item-media"><img src="img/money.png" class="besar-icon" /></div>
+                            <div class="item-media"><img src="img/money.png" class="besar-icon"/></div>
                             <div class="item-inner">
                                 <div class="item-title teks-tengah"><h4>Simulasi</h4></div>
                             </div>
@@ -106,12 +110,17 @@
                 </div>
             </div>
         </div>
+        <div class="toolbar tabbar tabbar-icons toolbar-bottom customer-order-status display-none">
+            <div class="toolbar-inner" style="display: flex; justify-content: center; align-items: center;">
+                <h3 class="teks-tengah font17 customer-order-status-text"></h3>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     export default function (props, ctx) {
         ctx.$on("pageInit", function() {
-            let username = sessionStorage.getItem("username");
+            let username = sessionStorage.getItem("username")
 
             $.ajax({
                 url: "https://gravery-api.vercel.app/api/detail-profile",
@@ -122,20 +131,57 @@
                 success: function(result) {
                     $('.page').removeClass("display-none")
 
-                    if (result.role_id == 1){
+                    if (result.role_id == 1) {
+                        $.ajax({
+                            url: "https://gravery-api.vercel.app/api/check-customer-status-order",
+                            method: "POST",
+                            data: {
+                                username: username
+                            },
+                            success: function(result) {
+                                if (result.data[0].status != 'Selesai') {
+                                    $('.customer-order-status').removeClass('display-none')
+                                    $('.customer-order-status-text').html(result.data[0].status)
+                                }
+                            },
+                        })
+
                         $('.content-customer').removeClass("display-none")
+
+                        const custBalance = (result.balance) ? rupiahFormatter(result.balance) : rupiahFormatter(0)
+                        $('.customer-balance').html(`Saldo: ${custBalance}`)
                         sessionStorage.setItem("customerId", result.profile_id)
                         sessionStorage.setItem("CustomerName", result.name)
                         localStorage.setItem('customerAddress', result.address)
                     } 
 
-                    if (result.role_id == 2){
+                    if (result.role_id == 2) {
+                        $('.content-customer').addClass("display-none")
                         $('.content-courier').removeClass("display-none")
                         sessionStorage.setItem("courierId", result.profile_id)
                     }
                     
                     $('.nama').html(result.name)
                 },
+            })
+
+            $('#cust-order-menu').on('click', function() {
+                const customerID = sessionStorage.getItem("customerId")
+
+                $.ajax({
+                    url: "https://gravery-api.vercel.app/api/check-order",
+                    method: "POST",
+                    data: {
+                        customer_id: customerID
+                    },
+                    success: function(result) {
+                        if (result.status == 'not ok') {
+                            return app.dialog.alert("Anda memiliki order sebelumnya yang belum selesai", "Error")
+                        }
+
+                        return app.views.main.router.navigate(`/order/`);
+                    },
+                })
             })
         })
 
