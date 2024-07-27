@@ -2,7 +2,7 @@
     <div class="page no-toolbar no-navbar no-swipeback login-screen-page">
         <div class="page-content login-screen-content">
             <div class="login-screen-title">
-                Bank Sampah
+                <i class="icon f7-icons">trash_fill</i> Bank Sampah
             </div>
             <div class="block-title block-title-large">Halaman Login</div>
             <form>
@@ -38,7 +38,16 @@
                         </li>
                     </ul>
                 </div>
-                <div class="grid grid-cols-2">
+                <div class="list inset">
+                    <ul>
+                        <li><a class="list-button" @click="${()=>login()}">Login</a></li>
+                    </ul>
+                    <div class="block-footer margin-top">
+                        Jika email anda belum terdaftar. Maka daftar terlebih dahulu.
+                        <p><a class="list-button" href="/regis/">Daftar</a></p>
+                    </div>
+                </div>
+                <!-- <div class="grid grid-cols-2">
                     <div class="card">
                         <div class="card-content card-content-padding">
                             <a class="item-content item-link" @click="${()=>login()}">
@@ -59,7 +68,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>
