@@ -17,7 +17,7 @@
         </div>
         <div class="toolbar tabbar tabbar-icons toolbar-bottom">
             <div class="toolbar-inner" style="display: flex; justify-content: center; align-items: center;">
-                <h3 class="teks-tengah font17">Total: Rp. 10.000</h3>
+                <h3 class="teks-tengah font17 total-order-status-text"></h3>
             </div>
         </div>
         <div class="page-content">
@@ -41,7 +41,7 @@
                     localStorage.setItem('custLat', result.data[0].customer_lat)
                     localStorage.setItem('custLong', result.data[0].customer_long)
                     $('#detail-pickup-content').html(fetchContent(result.data))
-                    
+                    $('.total-order-status-text').html(`Total: ${rupiahFormatter(result.data[0].total)}`)
                     $('.page').removeClass("display-none")
                 }
             })
