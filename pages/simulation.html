@@ -58,6 +58,14 @@
                     <p>Total : <span class="garbage-total-price-simulation"></span></p>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-content card-content-padding card-trivia-wrapper display-none">
+                    <h5>Keterangan:</h5>
+                    <p class="trivia-content"></p>
+                    <!-- <p>Sampah organik adalah jenis sampah yang terdiri dari bahan-bahan yang berasal dari hewan dan tumbuhan serta beberapa diantaranya mudah hancur apabila tertinggal di alam.</p> -->
+                    <!-- <p>Sampah anorganik adalah limbah yang diproduksi dari bahan-bahan nonhayati, sumber daya alam tidak terbarui, dan hasil proses teknologi pengelolaan bahan tambang dan industri.</p> -->
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -89,9 +97,15 @@
             $(document).on('click', '.organic-card-simulation', function() {
                 $(this).toggleClass('active');
                 
+                $('.anorganic-card-simulation').removeClass('active').css("background", "#f8f3f2");
+
                 if ($(this).hasClass('active')) {
                     garbageType = 'Organik';
                     garbagePrice = 3000;
+
+                    $(this).css("background", "#f3e2df")
+                    $('.card-trivia-wrapper').removeClass('display-none')
+                    $('.trivia-content').html('Sampah organik adalah jenis sampah yang terdiri dari bahan-bahan yang berasal dari hewan dan tumbuhan serta beberapa diantaranya mudah hancur apabila tertinggal di alam.')
 
                     $('input[name=garbage_size_simulation]').removeAttr('readonly'); // Enable the input field
                     $('.garbage-type-simulation').html(garbageType);
@@ -100,6 +114,9 @@
                 } else {
                     garbageType = '';
                     garbagePrice = 0;
+
+                    $(this).css("background", "#f8f3f2")
+                    $('.card-trivia-wrapper').addClass('display-none')
 
                     $('input[name=garbage_size_simulation]').attr('readonly', 'readonly'); // Disable the input field
                     $('.garbage-type-simulation').html('');
@@ -111,9 +128,15 @@
             $(document).on('click', '.anorganic-card-simulation', function() {
                 $(this).toggleClass('active');
 
+                $('.organic-card-simulation').removeClass('active').css("background", "#f8f3f2");
+
                 if ($(this).hasClass('active')) {
                     garbageType = 'Anorganik'
                     garbagePrice = 5000
+
+                    $(this).css("background", "#f3e2df")
+                    $('.card-trivia-wrapper').removeClass('display-none')
+                    $('.trivia-content').html('Sampah anorganik adalah limbah yang diproduksi dari bahan-bahan nonhayati, sumber daya alam tidak terbarui, dan hasil proses teknologi pengelolaan bahan tambang dan industri.')
 
                     $('input[name=garbage_size_simulation]').removeAttr('readonly')
                     $('.garbage-type-simulation').html(garbageType)
@@ -122,6 +145,9 @@
                 } else {
                     garbageType = '';
                     garbagePrice = 0;
+
+                    $(this).css("background", "#f8f3f2")
+                    $('.card-trivia-wrapper').addClass('display-none')
 
                     $('input[name=garbage_size_simulation]').attr('readonly', 'readonly'); // Disable the input field
                     $('.garbage-type-simulation').html('');
